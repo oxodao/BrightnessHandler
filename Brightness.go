@@ -10,6 +10,10 @@ type Brightness struct {
 	MaxValue int
 }
 
+func (b *Brightness) EnforcePermissions() error {
+	return exec.Command("chmod", "700", CurrentDevice.GetBrightnessPath()).Run()
+}
+
 func (b *Brightness) Add(wanted int) {
 	wanted = b.CurrentValue + wanted
 

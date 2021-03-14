@@ -15,6 +15,11 @@ func main() {
 		panic(err)
 	}
 
+	err = brightness.EnforcePermissions()
+	if err != nil {
+		panic(err)
+	}
+
 	args := ArgumentParser{Args: os.Args}
 	err = args.Parse(brightness)
 	if err != nil {
@@ -38,7 +43,7 @@ func main() {
 		brightness.Write()
 	}
 
-	fmt.Printf("💡 %v%%\n", brightness.GetCurrent())
+	fmt.Printf("%v%%\n", brightness.GetCurrent())
 }
 
 func help() {
