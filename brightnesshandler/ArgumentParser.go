@@ -1,4 +1,4 @@
-package main
+package brightnesshandler
 
 import (
 	"errors"
@@ -28,7 +28,7 @@ func (sc *ArgumentParser) Parse(b *Brightness) error {
 			return err
 		}
 
-		sc.WantedBrightness = int((float64(wantedValue)/100)*float64(b.MaxValue))
+		sc.WantedBrightness = int((float64(wantedValue) / 100) * float64(b.MaxValue))
 	}
 
 	return nil

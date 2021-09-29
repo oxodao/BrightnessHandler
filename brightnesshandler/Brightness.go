@@ -1,17 +1,14 @@
-package main
+package brightnesshandler
 
 import (
 	"fmt"
-	"os/exec"
+	"os"
 )
 
 type Brightness struct {
+	Config       *Config
 	CurrentValue int
-	MaxValue int
-}
-
-func (b *Brightness) EnforcePermissions() error {
-	return exec.Command("chmod", "700", CurrentDevice.GetBrightnessPath()).Run()
+	MaxValue     int
 }
 
 func (b *Brightness) Add(wanted int) {
@@ -51,21 +48,22 @@ func (b *Brightness) GetCurrent() int {
 }
 
 func (b *Brightness) Write() error {
-	return exec.Command("sh", "-c", fmt.Sprintf("echo %v > %v", b.CurrentValue, CurrentDevice.GetBrightnessPath())).Run()
+	return os.WriteFile(b.Config.GetBrightnessPath(), []byte(fmt.Sprintf("%v", b.CurrentValue)), 0700)
 }
 
-func New() (*Brightness, error) {
-	max, err := GetNumberFromFile(CurrentDevice.GetMaxBrightnessPath())
+func New(cfg *Config) (*Brightness, error) {
+	max, err := GetNumberFromFile(cfg.GetMaxBrightnessPath())
 	if err != nil {
 		return nil, err
 	}
 
-	curr, err := GetNumberFromFile(CurrentDevice.GetBrightnessPath())
+	curr, err := GetNumberFromFile(cfg.GetBrightnessPath())
 	if err != nil {
 		return nil, err
 	}
 
 	return &Brightness{
+		Config:       cfg,
 		CurrentValue: curr,
 		MaxValue:     max,
 	}, nil

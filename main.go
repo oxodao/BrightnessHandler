@@ -3,24 +3,22 @@ package main
 import (
 	"fmt"
 	"os"
+
+	"github.com/oxodao/brightnesshandler/brightnesshandler"
 )
 
-var CurrentDevice Device
-
 func main() {
-	CurrentDevice = NewDevice("amdgpu_bl0", "brightness", "max_brightness")
-
-	brightness, err := New()
+	cfg, err := brightnesshandler.LoadConfig()
 	if err != nil {
 		panic(err)
 	}
 
-	err = brightness.EnforcePermissions()
+	brightness, err := brightnesshandler.New(cfg)
 	if err != nil {
 		panic(err)
 	}
 
-	args := ArgumentParser{Args: os.Args}
+	args := brightnesshandler.ArgumentParser{Args: os.Args}
 	err = args.Parse(brightness)
 	if err != nil {
 		help()
