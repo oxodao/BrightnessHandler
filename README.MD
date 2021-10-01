@@ -43,12 +43,12 @@ command=bh get
 ```
 
 ### Changing the brightness
-Changing the brightness requires some full privileges that for some reasons the binary doesn't simply have with the -s flag for some reasons, so you might want to use sudo.
+For now, changing the brightness requires root privileges. This will no longer be the case when I'll implement proper udev rules.
 
 ```
 # ~/.config/i3/config
 [...]
-bindsym XF86MonBrightnessUp   exec sudo bh add 10                                        
+bindsym XF86MonBrightnessUp   exec sudo bh add 10
 bindsym XF86MonBrightnessDown exec sudo bh sub 10
 [...]
 ```
